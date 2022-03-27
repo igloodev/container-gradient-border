@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.0.2
 
-A package for providing gradient border for container.
+Update README
