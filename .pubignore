@@ -1,0 +1,26 @@
+# Example app platform directories
+example/android/
+example/ios/
+example/linux/
+example/macos/
+example/web/
+example/windows/
+example/build/
+example/.dart_tool/
+example/.flutter-plugins
+example/.flutter-plugins-dependencies
+
+# Build artifacts
+build/
+.dart_tool/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Flutter metadata
+.metadata
+
+# Screenshots (served via GitHub raw URL in README)
+screenshots/
