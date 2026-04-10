@@ -82,41 +82,32 @@ ContainerGradientBorder(
 
 ### TextField with focus state
 
+Wrap in a `StatefulWidget`, track focus with a `bool`, and swap the gradient on `onFocusChange`:
+
 ```dart
-class _GradientTextField extends StatefulWidget {
-  const _GradientTextField();
+// inside State<...>.build:
+bool _focused = false;
 
-  @override
-  State<_GradientTextField> createState() => _GradientTextFieldState();
-}
-
-class _GradientTextFieldState extends State<_GradientTextField> {
-  bool _focused = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Focus(
-      onFocusChange: (hasFocus) => setState(() => _focused = hasFocus),
-      child: ContainerGradientBorder(
-        borderWidth: 2,
-        borderRadius: 10,
-        gradient: LinearGradient(
-          colors: _focused
-              ? [Colors.deepPurple, Colors.pink]
-              : [Colors.grey.shade300, Colors.grey.shade400],
-        ),
-        containerColor: Colors.white,
-        child: const TextField(
-          decoration: InputDecoration(
-            hintText: 'Tap to focus...',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          ),
-        ),
+Focus(
+  onFocusChange: (hasFocus) => setState(() => _focused = hasFocus),
+  child: ContainerGradientBorder(
+    borderWidth: 2,
+    borderRadius: 10,
+    gradient: LinearGradient(
+      colors: _focused
+          ? [Colors.deepPurple, Colors.pink]
+          : [Colors.grey.shade300, Colors.grey.shade400],
+    ),
+    containerColor: Colors.white,
+    child: const TextField(
+      decoration: InputDecoration(
+        hintText: 'Tap to focus...',
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
-    );
-  }
-}
+    ),
+  ),
+)
 ```
 
 ## Parameters

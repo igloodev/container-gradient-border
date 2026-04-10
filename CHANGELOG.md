@@ -11,7 +11,7 @@
 - Updated Dart SDK constraint to `>=3.0.0 <4.0.0`
 - Updated `flutter_lints` to `^4.0.0`
 - Added dartdoc comments to all public API members
-- Expanded test coverage from 0 to 11 tests
+- Expanded test coverage from 0 to 27 tests
 
 ## 0.0.2
 

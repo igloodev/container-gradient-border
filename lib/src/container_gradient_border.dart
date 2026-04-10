@@ -8,6 +8,10 @@ import 'package:flutter/material.dart';
 /// - Supports any [Gradient] type: [LinearGradient], [RadialGradient], [SweepGradient]
 /// - Draws a true stroke, not a background bleed-through
 ///
+/// The border is painted as a background layer (via [CustomPaint.painter]).
+/// If [child] has its own opaque background it will cover [containerColor],
+/// but the gradient stroke on the outer edge remains visible.
+///
 /// Example:
 /// ```dart
 /// ContainerGradientBorder(
@@ -26,7 +30,7 @@ import 'package:flutter/material.dart';
 class ContainerGradientBorder extends StatelessWidget {
   /// Creates a gradient-bordered container that wraps [child].
   ///
-  /// [borderWidth] must be non-negative.
+  /// [borderWidth] must be non-negative. [borderRadius] must be non-negative.
   const ContainerGradientBorder({
     super.key,
     required this.child,
@@ -37,7 +41,8 @@ class ContainerGradientBorder extends StatelessWidget {
     this.borderRadius = 0.0,
     this.containerColor = Colors.transparent,
     this.padding = EdgeInsets.zero,
-  }) : assert(borderWidth >= 0, 'borderWidth must be non-negative.');
+  })  : assert(borderWidth >= 0, 'borderWidth must be non-negative.'),
+        assert(borderRadius >= 0, 'borderRadius must be non-negative.');
 
   /// The widget to display inside the gradient border.
   final Widget child;
@@ -46,20 +51,32 @@ class ContainerGradientBorder extends StatelessWidget {
   ///
   /// Accepts any [Gradient] subtype — [LinearGradient], [RadialGradient],
   /// or [SweepGradient]. Defaults to a white-to-black linear gradient.
+  ///
+  /// Note: [Gradient] does not implement value equality, so two structurally
+  /// identical gradients are not considered equal. This means the painter will
+  /// repaint whenever the widget rebuilds with a new [Gradient] instance —
+  /// a known Flutter limitation. To avoid unnecessary repaints, cache the
+  /// gradient instance or use `const`.
   final Gradient gradient;
 
   /// The thickness of the gradient border in logical pixels.
   ///
-  /// Defaults to `2.0`. Must be non-negative.
+  /// Must be non-negative. When set to `0`, [CustomPaint] is skipped entirely
+  /// and [containerColor] has no effect — only [padding] and [child] are used.
+  ///
+  /// Defaults to `2.0`.
   final double borderWidth;
 
   /// The corner radius of the border.
   ///
-  /// Defaults to `0.0` (sharp corners).
+  /// Must be non-negative. Defaults to `0.0` (sharp corners).
+  /// When [borderWidth] exceeds [borderRadius], the inner fill radius is
+  /// clamped to `0.0` automatically.
   final double borderRadius;
 
   /// The background color of the area inside the border.
   ///
+  /// Skipped when fully transparent (alpha == 0) or when [borderWidth] is `0`.
   /// Defaults to [Colors.transparent].
   final Color containerColor;
 
@@ -70,6 +87,12 @@ class ContainerGradientBorder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Skip CustomPaint entirely when there is no border to draw.
+    if (borderWidth == 0) {
+      return padding == EdgeInsets.zero
+          ? child
+          : Padding(padding: padding, child: child);
+    }
     return CustomPaint(
       painter: _GradientBorderPainter(
         gradient: gradient,
@@ -106,7 +129,9 @@ class _GradientBorderPainter extends CustomPainter {
     final halfBorder = borderWidth / 2;
 
     // Fill the inner area with containerColor, drawn beneath the border stroke.
-    if (containerColor != Colors.transparent) {
+    // Use alpha check instead of identity comparison so any fully-transparent
+    // color (e.g. Color(0x00FFFFFF)) is correctly skipped.
+    if (containerColor.a != 0) {
       final innerRadius =
           (borderRadius - borderWidth).clamp(0.0, double.infinity);
       canvas.drawRRect(
@@ -137,6 +162,10 @@ class _GradientBorderPainter extends CustomPainter {
   }
 
   @override
+  // NOTE: Gradient does not implement value equality, so this returns true
+  // whenever a new Gradient instance is passed — even if structurally identical.
+  // This is a Flutter framework limitation. Use const or cached gradients to
+  // prevent unnecessary repaints.
   bool shouldRepaint(_GradientBorderPainter oldDelegate) =>
       oldDelegate.gradient != gradient ||
       oldDelegate.borderWidth != borderWidth ||
