@@ -125,6 +125,104 @@ void main() {
       expect(customPaint.child, isA<Padding>());
     });
 
+    testWidgets('padding combines borderWidth and user padding', (tester) async {
+      const borderWidth = 4.0;
+      const userPadding = EdgeInsets.all(8.0);
+
+      await tester.pumpWidget(_wrap(
+        const ContainerGradientBorder(
+          borderWidth: borderWidth,
+          padding: userPadding,
+          child: SizedBox(width: 50, height: 50),
+        ),
+      ));
+
+      final customPaint = tester.widget<CustomPaint>(
+        find.descendant(
+          of: find.byType(ContainerGradientBorder),
+          matching: find.byType(CustomPaint),
+        ),
+      );
+      final paddingWidget = customPaint.child as Padding;
+      expect(
+        paddingWidget.padding,
+        EdgeInsets.all(borderWidth).add(userPadding),
+      );
+    });
+
+    testWidgets('borderWidth 0 applies only user padding', (tester) async {
+      const userPadding = EdgeInsets.symmetric(horizontal: 12, vertical: 6);
+
+      await tester.pumpWidget(_wrap(
+        const ContainerGradientBorder(
+          borderWidth: 0,
+          padding: userPadding,
+          child: SizedBox(width: 50, height: 50),
+        ),
+      ));
+
+      final customPaint = tester.widget<CustomPaint>(
+        find.descendant(
+          of: find.byType(ContainerGradientBorder),
+          matching: find.byType(CustomPaint),
+        ),
+      );
+      final paddingWidget = customPaint.child as Padding;
+      expect(paddingWidget.padding, userPadding);
+    });
+
+    testWidgets('painter is set on CustomPaint', (tester) async {
+      await tester.pumpWidget(_wrap(
+        const ContainerGradientBorder(
+          borderWidth: 3,
+          child: SizedBox(width: 80, height: 40),
+        ),
+      ));
+
+      final customPaint = tester.widget<CustomPaint>(
+        find.descendant(
+          of: find.byType(ContainerGradientBorder),
+          matching: find.byType(CustomPaint),
+        ),
+      );
+      expect(customPaint.painter, isNotNull);
+    });
+
+    testWidgets('rebuilds correctly when gradient changes', (tester) async {
+      await tester.pumpWidget(_wrap(
+        const ContainerGradientBorder(
+          gradient: LinearGradient(colors: [Colors.blue, Colors.green]),
+          child: SizedBox(width: 100, height: 50),
+        ),
+      ));
+      expect(find.byType(ContainerGradientBorder), findsOneWidget);
+
+      await tester.pumpWidget(_wrap(
+        const ContainerGradientBorder(
+          gradient: LinearGradient(colors: [Colors.red, Colors.orange]),
+          child: SizedBox(width: 100, height: 50),
+        ),
+      ));
+      expect(find.byType(ContainerGradientBorder), findsOneWidget);
+    });
+
+    testWidgets('rebuilds correctly when borderWidth changes', (tester) async {
+      await tester.pumpWidget(_wrap(
+        const ContainerGradientBorder(
+          borderWidth: 2,
+          child: SizedBox(width: 100, height: 50),
+        ),
+      ));
+
+      await tester.pumpWidget(_wrap(
+        const ContainerGradientBorder(
+          borderWidth: 8,
+          child: SizedBox(width: 100, height: 50),
+        ),
+      ));
+      expect(find.byType(ContainerGradientBorder), findsOneWidget);
+    });
+
     test('assert fires for negative borderWidth', () {
       expect(
         () => ContainerGradientBorder(
