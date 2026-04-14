@@ -1,3 +1,9 @@
+## 0.1.1
+
+- Added `screenshots` field to `pubspec.yaml` for pub.dev gallery display
+
+---
+
 ## 0.1.0
 
 - **Breaking**: Replaced nested-container implementation with `CustomPaint` for accurate gradient stroke rendering
