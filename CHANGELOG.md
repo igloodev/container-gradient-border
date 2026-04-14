@@ -1,3 +1,9 @@
+## 0.1.2
+
+- Reduced archive size: converted screenshot from PNG (140 KB) to JPEG (74 KB)
+
+---
+
 ## 0.1.1
 
 - Added `screenshots` field to `pubspec.yaml` for pub.dev gallery display

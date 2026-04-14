@@ -4,7 +4,7 @@ A Flutter widget that applies a gradient border to any child widget using `Custo
 
 ## Preview
 
-![Example screenshot](https://raw.githubusercontent.com/igloodev/container-gradient-border/master/screenshots/example.png)
+![Example screenshot](https://raw.githubusercontent.com/igloodev/container-gradient-border/master/screenshots/example.jpg)
 
 ## Features
 

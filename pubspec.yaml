@@ -1,11 +1,11 @@
 name: container_gradient_border
-description: A Flutter widget that applies a gradient border to any child widget using CustomPaint. Supports LinearGradient, RadialGradient, and SweepGradient. Sizes to child automatically — no fixed height/width required.
-version: 0.1.1
+description: Flutter widget that applies a gradient border using CustomPaint. Supports LinearGradient, RadialGradient, and SweepGradient. Sizes to child automatically.
+version: 0.1.2
 homepage: https://github.com/igloodev/container-gradient-border
 
 screenshots:
   - description: 'LinearGradient card, RadialGradient avatar, SweepGradient pill button, multi-stop gradient input, and focus-state border'
-    path: screenshots/example.png
+    path: screenshots/example.jpg
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
