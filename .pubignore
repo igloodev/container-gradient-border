@@ -22,5 +22,3 @@ build/
 # Flutter metadata
 .metadata
 
-# Screenshots (served via GitHub raw URL in README)
-screenshots/
