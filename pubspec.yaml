@@ -13,7 +13,7 @@ topics:
   - decoration
 
 screenshots:
-  - description: 'LinearGradient card, RadialGradient avatar, SweepGradient pill button, multi-stop gradient input, and focus-state border'
+  - description: 'Linear, radial and sweep gradient borders, plus dashed, glow, and animated styles'
     path: screenshots/example.jpg
 
 environment:
