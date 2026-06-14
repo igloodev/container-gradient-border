@@ -1,3 +1,13 @@
+## 0.2.0
+
+- **Dashed borders** — new `dashPattern` (`[dash, gap, …]`) parameter.
+- **Glow** — new `glowColor` / `glowBlurRadius` for an outer glow behind the stroke.
+- **Animated borders** — new `animate` / `animationDuration` to continuously rotate the gradient (great with `SweepGradient`).
+- Added pubspec `topics` and `repository` / `issue_tracker`, and shields badges in the README.
+- All additive and backward-compatible (no breaking changes).
+
+---
+
 ## 0.1.2
 
 - Reduced archive size: converted screenshot from PNG (140 KB) to JPEG (74 KB)

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:container_gradient_border/container_gradient_border.dart';
 
-Widget _wrap(Widget child) => MaterialApp(home: Scaffold(body: Center(child: child)));
+Widget _wrap(Widget child) =>
+    MaterialApp(home: Scaffold(body: Center(child: child)));
 
 void main() {
   group('ContainerGradientBorder', () {
@@ -43,7 +44,8 @@ void main() {
     testWidgets('renders with SweepGradient', (tester) async {
       await tester.pumpWidget(_wrap(
         const ContainerGradientBorder(
-          gradient: SweepGradient(colors: [Colors.pink, Colors.purple, Colors.pink]),
+          gradient:
+              SweepGradient(colors: [Colors.pink, Colors.purple, Colors.pink]),
           borderWidth: 5,
           borderRadius: 50,
           child: SizedBox(width: 100, height: 100),
@@ -125,7 +127,8 @@ void main() {
       expect(customPaint.child, isA<Padding>());
     });
 
-    testWidgets('padding combines borderWidth and user padding', (tester) async {
+    testWidgets('padding combines borderWidth and user padding',
+        (tester) async {
       const borderWidth = 4.0;
       const userPadding = EdgeInsets.all(8.0);
 
@@ -223,12 +226,14 @@ void main() {
       expect(find.byType(ContainerGradientBorder), findsOneWidget);
     });
 
-    testWidgets('borderWidth greater than borderRadius clamps inner radius to 0',
+    testWidgets(
+        'borderWidth greater than borderRadius clamps inner radius to 0',
         (tester) async {
       await tester.pumpWidget(_wrap(
         const ContainerGradientBorder(
           borderWidth: 20,
-          borderRadius: 8, // borderWidth > borderRadius → inner radius clamped to 0
+          borderRadius:
+              8, // borderWidth > borderRadius → inner radius clamped to 0
           child: SizedBox(width: 100, height: 100),
         ),
       ));
@@ -291,7 +296,8 @@ void main() {
       );
     });
 
-    testWidgets('rebuilds correctly when containerColor changes', (tester) async {
+    testWidgets('rebuilds correctly when containerColor changes',
+        (tester) async {
       await tester.pumpWidget(_wrap(
         const ContainerGradientBorder(
           containerColor: Colors.white,
